@@ -1,0 +1,15 @@
+pip install Django:  Installs Django
+
+pip list:  shows a list of the installed packages.
+
+pip install Django:  Shows that you already installed Django
+
+pip freeze:  similar to list. It shows the installed Packages but unlike list it doesn't show "setuptools"
+
+pip Freeze > requirements.txt:  prints the list of the installed packages inside a text file called "requirements.txt".
+
+pip uninstall Django: uninstalls Django package.
+
+pip show Django:  Shows information about Django. Version, website, author, author's email, etc.
+
+pip search Flask:  shows a list of anything related to Flask.
