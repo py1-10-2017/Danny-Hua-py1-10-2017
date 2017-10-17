@@ -1,0 +1,22 @@
+*{
+  margin: 0px;
+  padding: 0px;
+}
+#container{
+  margin: 20px auto;
+  padding: 30px;
+  width: 600px;
+  border: 1px solid black
+}
+.label{
+  margin: 20px 30px;
+  text-align: center;
+}
+.input{
+  margin: 20px 30px;
+  text-align: center;
+}
+.but{
+  display: block;
+  margin-left: 400px;
+}

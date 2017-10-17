@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>The Great Number Game</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/numgame.css') }}">
+</head>
+<body>
+	<div id="container">
+		<h4>Number {{ request.form["action"] }}</h4>
+		{% if session["current_number"] == "correct" %}
+			<div id="correct">
+				<h3 class="white_text">That is correct!</h3>
+				<h4 class="white_text">{{ session["number"] }} is the correct number</h4>
+				<form action="/reset">
+					<input type="submit" name="play_again" value="Play Again">
+				</form>
+			</div>
+		{% elif session["current_number"] == "high" %}
+			<div id="toohigh">
+				<h3 class="white_text">Too High!</h3>
+			</div>
+		{% else %}
+			<div id="toolow">
+				<h3 class="white_text">Too Low!</h3>
+			</div>
+		{% endif %}
+		<form action="/process" method="POST">
+			<input type="number" name="action">
+			<input type="submit" name="submit" value="Submit">
+		</form>
+	</div>
+</body>
+</html>

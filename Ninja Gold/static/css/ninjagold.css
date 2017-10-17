@@ -1,0 +1,41 @@
+*{
+	margin: 0px;
+	padding: 0px;
+}
+#container{
+	width: 970px;
+	margin: 20px auto;
+}
+#find{
+	margin: 10px 20px;
+	width: 195px;
+	height: 150px;
+	text-align: center;
+	display: inline-block;
+	border: 2px solid black;
+	vertical-align: top;
+}
+.select{
+	margin: 10px;
+}
+#act{
+	height: 300px;
+	border: 2px solid black;
+	overflow: auto;
+}
+.gold{
+	width: 100px;
+	height: 20px;
+	border: 2px solid black;
+	display: inline-block;
+	vertical-align: top;
+}
+.g{
+	display: inline-block;
+}
+.win{
+	color: green;
+}
+.loss{
+	color: red;
+}

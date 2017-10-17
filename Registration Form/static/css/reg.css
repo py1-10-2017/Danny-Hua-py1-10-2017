@@ -1,0 +1,16 @@
+*{
+	margin: 0px;
+	padding: 0px;
+}
+#container{
+	width: 400px;
+	margin: 20px auto;
+}
+.error{
+	background-color: red;
+	color: white;
+	font-weight: bold;
+}
+.item, .input{
+	margin: 20px 10px;
+}
