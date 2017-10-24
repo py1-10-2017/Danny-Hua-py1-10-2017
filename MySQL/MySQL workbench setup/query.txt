@@ -1,0 +1,14 @@
+use twitter
+select * from users;
+select * from tweets;
+INSERT INTO tweets (tweet, user_id, created_at, updated_at) VALUES ('hello', 1, now(), now())
+select * from tweets
+UPDATE users set first_name = 'Someone' where id = 1
+select * from users
+select * from tweets
+DELETE FROM tweets WHERE id = 13
+select * from tweets
+SELECT concat('Mr. ', first_name, ' ', last_name) AS full_name FROM users;
+SELECT LENGTH(last_name) AS last_len FROM users
+select sites.domain_name, leads.first_name, leads.last_name from sites join leads on sites.id = leads.sites_id;
+select clients.first_name, clients.last_name, sites.domain_name from clients LEFT join sites on clients.id = sites.clients_id;
