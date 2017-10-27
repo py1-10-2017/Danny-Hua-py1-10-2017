@@ -1,0 +1,27 @@
+.container{
+	width: 600px;
+	height: 400px;
+	background-color: gray;
+}
+#email{
+	text-align: center;
+	padding: 20px 30px;
+}
+.wrong{
+	width: 200px;
+	height: 60px;
+	border: 2px solid black;
+	background-color: red;
+	text-align: center;
+}
+.success{
+	margin: 20px auto;
+	width: 300px;
+	height: 100px;
+	border: 2px solid black;
+	background-color: green;
+	text-align: center;
+}
+.textwhite{
+	color: white;
+}

@@ -1,0 +1,13 @@
+ERROR=  sqlalchemy.exc.ProgrammingError: (_mysql_exceptions.ProgrammingError) (1146, "Table 'mydb.users' doesn't exist") [SQL: u'SELECT * FROM users']
+FIX: Create a "users" table in the database.
+
+ERROR= sqlalchemy.exc.OperationalError: (_mysql_exceptions.OperationalError) (1045, "Access denied for user 'root'@'localhost' (using password: NO)")
+FIX:  Create a password.
+
+ERROR= sqlalchemy.exc.OperationalError: (_mysql_exceptions.OperationalError) (1045, "Access denied for user 'ODBC'@'localhost' (using password: YES)")
+
+FIX:  Enter username.
+
+ERROR= sqlalchemy.exc.OperationalError: (_mysql_exceptions.OperationalError) (2003, "Can't connect to MySQL server on '127.0.0.1' (10061)")
+FIX:  Wrong port on the server.  Enter the correct port.
+

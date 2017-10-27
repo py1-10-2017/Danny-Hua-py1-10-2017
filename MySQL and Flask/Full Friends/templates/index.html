@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Full Friends</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-3.3.7-dist/css/bootstrap.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/fullfriends.css') }}">
+</head>
+<body>
+<div class="container">
+	<h1>Full Friends</h1>
+	<div>
+		<table class="table table-striped table-bordered">
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Email</th>
+				<th>Created</th>
+				<th>Updated</th>
+				<th>Actions</th>
+			</tr>
+			{% for user in all_users%}
+				<tr>
+					<td>{{ user['first_name'] }}</td>
+					<td>{{ user['last_name'] }}</td>
+					<td>{{ user['email'] }}</td>
+					<td>{{ user['created_at'] }}</td>
+					<td>{{ user['updated_at'] }}</td>
+					<td>
+						<form class="button" action="/friends/{{ user['id'] }}/edit">
+							<input class="btn btn-info btn-sm" type="submit" name="edit" value="edit">
+						</form>
+						<form class="button" action="/friends/{{ user['id'] }}/delete" method="POST">
+							<input class="btn btn-danger btn-sm" type="submit" name="delete" value="delete">
+						</form>
+					</td>
+				</tr>
+			{% endfor %}
+		</table>
+	</div>
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+			{% for category, message in messages %}
+				<div>
+					<h6 class="{{ category }}">{{ message }}</h6>
+				</div>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	<div class="row">
+		<form class="form-horizontal" action="/friends" method="POST">
+			<div class="form-group">
+				<label class="col-sm-2 control-label">First Name:</label>
+				<input type="text" name="first_name"><br>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Last Name:</label>
+				<input type="text" name="last_name"><br>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Email:</label>
+				<input type="text" name="email"><br>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<input type="submit" class="btn btn-default btn-sm" name="submit" value="Add Friends">
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</body>
+</html>

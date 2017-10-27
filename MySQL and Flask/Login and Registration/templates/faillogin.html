@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Login Fail</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-3.3.7-dist/css/bootstrap.css') }}">
+</head>
+<body>
+	<div class="container">
+		{% with messages = get_flashed_messages %}
+			{% for message in messages %}
+				<h1>{{message}}</h1>
+			{% endfor %}
+		{% endwith %}
+	</div>
+	<form action="/clear">
+		<input type="submit" name="goback" value="Go Back">
+	</form>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Email Validation with DB</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-3.3.7-dist/css/bootstrap.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/email.css') }}">
+</head>
+<body>
+<div class="container">
+	{% with messages = get_flashed_messages(with_categories=true) %}
+		{% if messages %}
+			{% for category, message in messages %}
+				<div class="{{ category }}">
+					<p class="error-message">{{ message }}</p>
+				</div>
+			{% endfor %}
+		{% endif %}
+	{% endwith %}
+	<div>
+		<form id="email" action="/submit" method="POST">
+			<label>Email</label>
+			<input type="text" name="email" size="25">
+			<input class="btn btn-success btn-sm" type="submit" name="submit">
+		</form>
+	</div>
+</div>
+
+</body>
+</html>
