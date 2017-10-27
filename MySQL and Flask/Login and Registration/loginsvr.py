@@ -20,18 +20,25 @@ def index():
 def register():
 	if len(request.form['first_name']) < 2:
 		flash('First name has to have at least 2 characters')
+		return redirect('/')
 	elif not LETTERS_ONLY.match(request.form['first_name']):
 		flash('First name has to be letters only')
+		return redirect('/')
 	elif len(request.form['first_name']) < 2:
 		flash('Last name has to have at least 2 characters')
+		return redirect('/')
 	elif not LETTERS_ONLY.match(request.form['last_name']):
 		flash('Last name has to be letters only')
+		return redirect('/')
 	elif not EMAIL_REGEX.match(request.form['email']):
 		flash('Invalid email entry')
+		return redirect('/')
 	elif len(request.form['pw']) < 8:
 		flash('Password must be more than 8 characters')
+		return redirect('/')
 	elif request.form['confirm_pw'] != request.form['pw']:
 		flash('Please confirm your password')
+		return redirect('/')
 	else:
 		firstname = request.form['first_name']
 		lastname = request.form['last_name']
@@ -46,22 +53,29 @@ def register():
 				'password': pw_hash
 				}
 		mysql.query_db(query, data)
-	return redirect('/')
+		return redirect('/')
 
 @app.route('/login', methods=['POST'])
 def login():
-	email = request.form['email']
-	password = request.form['pw']
-	user_query = "SELECT * FROM users WHERE email = :email LIMIT 1"
-	query_data = {'email': email}
-	user = mysql.query_db(user_query, query_data)
-	if bcrypt.check_password_hash(user[0]['password'], password):
-		session['id'] = user[0]['id']
-		return redirect('/success')
+	if not EMAIL_REGEX.match(request.form['email']):
+		flash('Invalid email entry')
+		return redirect('/')
+	elif len(request.form['pw']) < 8:
+		flash('Password must be more than 8 characters')
+		return redirect('/')
 	else:
-		return "fail login"
-		# flash('Invalid email or password')
-		# return render_template('faillogin.html')
+		try:
+			email = request.form['email']
+			password = request.form['pw']
+			user_query = "SELECT * FROM users WHERE email = :email LIMIT 1"
+			query_data = {'email': email}
+			user = mysql.query_db(user_query, query_data)
+			if bcrypt.check_password_hash(user[0]['password'], password):
+				session['id'] = user[0]['id']
+				return redirect('/success')
+		except:
+			flash('Invalid email or password')
+			return redirect('/')
 
 @app.route('/success')
 def success():
