@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>The Wall</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-3.3.7-dist/css/bootstrap.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/thewallstyle.css') }}">
+</head>
+<body>
+	<div class="container">
+		<div class="panel panel-default headcolor">
+			<div class="panel-body">
+				<div class="col-md-3">
+					{% for user in one_user %}
+						<h4>{{ user['first_name']}} {{ user['last_name'] }}</h4>
+					{% endfor %}
+				</div>
+				<div class="col-md-2 col-md-offset-7">
+					<form action="/logout">
+						<input type="submit" class="btn btn-default" name="logout" value="Log out">
+					</form>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div>
+				<form action="/post/{{ session['id'] }}" method="POST">
+					<div class="form-group">
+						<label>Post a message</label>
+						<textarea class="form-control" rows="4" name="message"></textarea>
+					</div>
+					<div class="col-md-2 col-md-offset-10">
+						<input type="submit" class="btn btn-default" name="post" value="Post">
+					</div>
+				</form>
+			</div>
+			<div>
+				{% for data in all_data %}
+					<h5>{{ data['first_name'] }} {{ data['last_name'] }}- {{ data['message_date'] }}</h5>
+					<div class="panel panel-default white">
+						<div class="panel-body">
+							<p>{{ data['message'] }}</p>
+						</div>
+						{% for user in one_user %}
+							<div>
+								<h5>{{ user['first_name'] }} {{ user['last_name'] }} - {{ data['comment_date'] }}</h5>
+								<p>{{ data['comment'] }}</p>
+							</div>
+						{% endfor %}
+					</div>
+					<div class="col-md-2 col-md-offset-10 delete_btn">
+						<form action="/del_message/{{ data['message_id'] }}" method="POST">
+							<input type="submit" class="btn btn-default" name="delete" value="delete post">
+						</form>
+					</div>
+					<div class="col-md-11 col-md-offset-1 comment">
+						<form action="/comment/{{ data['message_id'] }}" method="POST">
+							<div class="form-group">
+								<label>Post a comment</label>
+								<textarea class="form-control" rows="3" name="comment"></textarea>
+							</div>
+							<div class="col-md-2 col-md-offset-10">
+								<input type="submit" class="btn btn-default" name="comment" value="Comment">
+							</div>
+						</form>
+					</div>
+					
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</body>
+</html>

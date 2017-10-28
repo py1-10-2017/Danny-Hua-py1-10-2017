@@ -1,0 +1,17 @@
+.col-md-4{
+	height: 475px;
+	/*margin: 0px auto;*/
+	background-color: #e0e0e0;
+}
+.col-md-10{
+	/*margin: 0px 150px;*/
+}
+h1{
+	margin: 30px 200px;
+}
+.headcolor{
+	background-color: #e0e0e0;
+}
+/*.delete_btn{
+	margin-top: 20px;
+}*/
