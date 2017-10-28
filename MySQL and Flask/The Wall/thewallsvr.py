@@ -5,7 +5,7 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 app.secret_key = "idunno"
 bcrypt = Bcrypt(app)
-mysql = MySQLConnector(app,'the_wall')
+mysql = MySQLConnector(app,'danny_the_wall')
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
 LETTERS_ONLY = re.compile(r'^[a-zA-Z]*$')
 
@@ -17,26 +17,32 @@ def index():
 
 @app.route('/register', methods=['POST'])
 def register():
+	errors = [];
+
 	if len(request.form['first_name']) < 2:
-		flash('First name has to have at least 2 characters')
-		return redirect('/')
-	elif not LETTERS_ONLY.match(request.form['first_name']):
-		flash('First name has to be letters only')
-		return redirect('/')
-	elif len(request.form['first_name']) < 2:
-		flash('Last name has to have at least 2 characters')
-		return redirect('/')
-	elif not LETTERS_ONLY.match(request.form['last_name']):
-		flash('Last name has to be letters only')
-		return redirect('/')
-	elif not EMAIL_REGEX.match(request.form['email']):
-		flash('Invalid email entry')
-		return redirect('/')
-	elif len(request.form['pw']) < 8:
-		flash('Password must be 8 characters or more')
-		return redirect('/')
-	elif request.form['confirm_pw'] != request.form['pw']:
-		flash('Please confirm your password')
+		errors.append('First name has to have at least 2 characters')
+
+	if not LETTERS_ONLY.match(request.form['first_name']):
+		errors.append('First name has to be letters only')
+
+	if len(request.form['first_name']) < 2:
+		errors.append('Last name has to have at least 2 characters')
+
+	if not LETTERS_ONLY.match(request.form['last_name']):
+		errors.append('Last name has to be letters only')
+
+	if not EMAIL_REGEX.match(request.form['email']):
+		errors.append('Invalid email entry')
+
+	if len(request.form['pw']) < 8:
+		errors.append('Password must be 8 characters or more')
+
+	if request.form['confirm_pw'] != request.form['pw']:
+		errors.append('Please confirm your password')
+
+	if len(errors) > 0:
+		for error in errors:
+			flash(error)
 		return redirect('/')
 	else:
 		firstname = request.form['first_name']
@@ -81,14 +87,24 @@ def login():
 
 @app.route('/success')
 def success():
-	queries = "SELECT users.id, users.first_name, users.last_name, messages.id AS message_id,  messages.message, date_format(messages.created_at, '%M %d, %Y') AS 'message_date', comments.id AS comment_id, comments.comment, date_format(comments.created_at, '%M %d, %Y') AS 'comment_date' FROM users LEFT JOIN messages ON users.id = messages.user_id LEFT JOIN comments ON messages.id = comments.message_id"
-	comment_queries = "SELECT users.id, users.first_name, users.last_name, messages.id AS message_id,  messages.message, date_format(messages.created_at, '%M %d, %Y') AS 'message_date', comments.id AS comment_id, comments.comment, date_format(comments.created_at, '%M %d, %Y') AS 'comment_date' FROM users JOIN messages ON users.id = messages.user_id LEFT JOIN comments ON messages.id = comments.message_id"
-	user_query = "SELECT users.id, users.first_name, users.last_name, messages.id AS message_id, messages.message, date_format(messages.created_at, '%M %d, %Y') AS 'message_date', comments.id AS comment_id, comments.comment, date_format(comments.created_at, '%M %d, %Y') AS 'comment_date' FROM users LEFT JOIN messages ON users.id = messages.user_id LEFT JOIN comments ON messages.id = comments.message_id WHERE users.id = :id"
-	# user_query = "SELECT * FROM users WHERE id = :id"
+	comment_query = "SELECT users.id, users.first_name, users.last_name, comments.message_id, comments.comment, date_format(comments.created_at, '%M %d, %Y') AS 'comment_date' FROM comments LEFT JOIN users ON comments.user_id = users.id"
+	comments = mysql.query_db(comment_query)
+	print comments
+
+	message_query = "SELECT messages.id AS message_id, messages.message, date_format(messages.created_at, '%M %d, %Y') AS 'message_date', users.id, users.first_name, users.last_name FROM messages LEFT JOIN users ON messages.user_id = users.id"
+	messages = mysql.query_db(message_query)
+
+	user_query = "SELECT users.id, users.first_name, users.last_name FROM users WHERE users.id = :id"
 	user_data = {'id': session['id']}
-	user = mysql.query_db(user_query, user_data)
-	data = mysql.query_db(queries)
-	return render_template('thewall.html', one_user=user, all_data=data)
+	user = mysql.query_db(user_query, user_data)[0]
+
+	context = {
+		'comments': comments,
+		'one_user': user,
+		'messages': messages
+	}
+
+	return render_template('thewall.html', context=context)
 
 @app.route('/post/<current_user>', methods=['POST'])
 def post(current_user):
