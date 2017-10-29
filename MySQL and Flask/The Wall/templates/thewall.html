@@ -11,9 +11,9 @@
 		<div class="panel panel-default headcolor">
 			<div class="panel-body">
 				<div class="col-md-3">
-				{% if 'id' in session %}
-					<h4>{{ context.one_user['first_name'] }} {{ context.one_user['last_name'] }}</h4>
-				{% endif %}
+					{% if 'id' in session %}
+						<h4>{{ context.one_user['first_name']}} {{ context.one_user['last_name'] }}</h4>
+					{% endif %}
 				</div>
 				<div class="col-md-2 col-md-offset-7">
 					<form action="/logout">
@@ -43,7 +43,7 @@
 						</div>
 						{% for comment in context.comments %}
 							{% if comment['message_id'] == message['message_id'] %}
-							<div>
+							<div class="col-md-11 col-md-offset-1">
 								<h5>{{ comment['first_name'] }} {{ comment['last_name'] }} - {{ comment['comment_date'] }}</h5>
 								<p>{{ comment['comment'] }}</p>
 							</div>
@@ -51,9 +51,11 @@
 						{% endfor %}
 					</div>
 					<div class="col-md-2 col-md-offset-10 delete_btn">
+						{% if session['id'] == message['id'] %}
 						<form action="/del_message/{{ message['message_id'] }}" method="POST">
 							<input type="submit" class="btn btn-default" name="delete" value="delete post">
 						</form>
+						{% endif %}
 					</div>
 					<div class="col-md-11 col-md-offset-1 comment">
 						<form action="/comment/{{ message['message_id'] }}" method="POST">

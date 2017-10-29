@@ -5,7 +5,7 @@ from flask_bcrypt import Bcrypt
 app = Flask(__name__)
 app.secret_key = "idunno"
 bcrypt = Bcrypt(app)
-mysql = MySQLConnector(app,'danny_the_wall')
+mysql = MySQLConnector(app,'the_wall')
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9\.\+_-]+@[a-zA-Z0-9\._-]+\.[a-zA-Z]*$')
 LETTERS_ONLY = re.compile(r'^[a-zA-Z]*$')
 
@@ -18,28 +18,27 @@ def index():
 @app.route('/register', methods=['POST'])
 def register():
 	errors = [];
-
 	if len(request.form['first_name']) < 2:
 		errors.append('First name has to have at least 2 characters')
-
+		
 	if not LETTERS_ONLY.match(request.form['first_name']):
 		errors.append('First name has to be letters only')
-
+		
 	if len(request.form['first_name']) < 2:
 		errors.append('Last name has to have at least 2 characters')
-
+		
 	if not LETTERS_ONLY.match(request.form['last_name']):
 		errors.append('Last name has to be letters only')
-
+		
 	if not EMAIL_REGEX.match(request.form['email']):
 		errors.append('Invalid email entry')
-
+		
 	if len(request.form['pw']) < 8:
 		errors.append('Password must be 8 characters or more')
-
+		
 	if request.form['confirm_pw'] != request.form['pw']:
 		errors.append('Please confirm your password')
-
+		
 	if len(errors) > 0:
 		for error in errors:
 			flash(error)
@@ -62,11 +61,17 @@ def register():
 
 @app.route('/login', methods=['POST'])
 def login():
+	errors = [];
+
 	if not EMAIL_REGEX.match(request.form['email']):
-		flash('Invalid email entry')
-		return redirect('/')
-	elif len(request.form['pw']) < 8:
-		flash('Password must be 8 characters or more')
+		errors.append('Invalid email entry')
+		
+	if len(request.form['pw']) < 8:
+		errors.append('Password must be 8 characters or more')
+	
+	if len(errors) > 0:
+		for error in errors:
+			flash(error)
 		return redirect('/')
 	else:
 		try:
@@ -87,14 +92,14 @@ def login():
 
 @app.route('/success')
 def success():
-	comment_query = "SELECT users.id, users.first_name, users.last_name, comments.message_id, comments.comment, date_format(comments.created_at, '%M %d, %Y') AS 'comment_date' FROM comments LEFT JOIN users ON comments.user_id = users.id"
+	comment_query = "SELECT users.id, users.first_name, users.last_name, comments.message_id, comments.comment, date_format(comments.created_at, '%M %d, %Y') AS comment_date FROM comments LEFT JOIN users ON comments.user_id = users.id ORDER BY comments.created_at DESC"
 	comments = mysql.query_db(comment_query)
-	print comments
 
-	message_query = "SELECT messages.id AS message_id, messages.message, date_format(messages.created_at, '%M %d, %Y') AS 'message_date', users.id, users.first_name, users.last_name FROM messages LEFT JOIN users ON messages.user_id = users.id"
+	message_query = "SELECT messages.id AS message_id,  messages.message, date_format(messages.created_at, '%M %d, %Y') AS 'message_date', users.id, users.first_name, users.last_name FROM messages LEFT JOIN users ON messages.user_id = users.id"
 	messages = mysql.query_db(message_query)
 
 	user_query = "SELECT users.id, users.first_name, users.last_name FROM users WHERE users.id = :id"
+
 	user_data = {'id': session['id']}
 	user = mysql.query_db(user_query, user_data)[0]
 
@@ -129,9 +134,14 @@ def comment(current_message):
 
 @app.route('/del_message/<message_id>', methods=['POST'])
 def del_message(message_id):
-	query = "DELETE FROM messages WHERE id = :id"
-	data = {'id': message_id}
-	mysql.query_db(query, data)
+	comment_query = " DELETE FROM comments WHERE message_id = :message_id"
+	comment_data = {'message_id': message_id}
+	mysql.query_db(comment_query, comment_data)
+	
+	message_query = "DELETE FROM messages WHERE id = :id;"
+	message_data = {'id': message_id}
+	mysql.query_db(message_query, message_data)
+
 	return redirect('/success')
 
 @app.route('/logout')
