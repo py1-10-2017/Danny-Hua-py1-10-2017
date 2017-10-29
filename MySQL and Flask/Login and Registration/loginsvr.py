@@ -18,26 +18,24 @@ def index():
 
 @app.route('/register', methods=['POST'])
 def register():
+	errors = []
 	if len(request.form['first_name']) < 2:
-		flash('First name has to have at least 2 characters')
-		return redirect('/')
-	elif not LETTERS_ONLY.match(request.form['first_name']):
-		flash('First name has to be letters only')
-		return redirect('/')
-	elif len(request.form['first_name']) < 2:
-		flash('Last name has to have at least 2 characters')
-		return redirect('/')
-	elif not LETTERS_ONLY.match(request.form['last_name']):
-		flash('Last name has to be letters only')
-		return redirect('/')
-	elif not EMAIL_REGEX.match(request.form['email']):
-		flash('Invalid email entry')
-		return redirect('/')
-	elif len(request.form['pw']) < 8:
-		flash('Password must be more than 8 characters')
-		return redirect('/')
-	elif request.form['confirm_pw'] != request.form['pw']:
-		flash('Please confirm your password')
+		errors.append('First name has to have at least 2 characters')
+	if not LETTERS_ONLY.match(request.form['first_name']):
+		errors.append('First name has to be letters only')
+	if len(request.form['first_name']) < 2:
+		errors.append('Last name has to have at least 2 characters')
+	if not LETTERS_ONLY.match(request.form['last_name']):
+		errors.append('Last name has to be letters only')
+	if not EMAIL_REGEX.match(request.form['email']):
+		errors.append('Invalid email entry')
+	if len(request.form['pw']) < 8:
+		errors.append('Password must be more than 8 characters')
+	if request.form['confirm_pw'] != request.form['pw']:
+		errors.append('Please confirm your password')
+	if len(errors) > 0:
+		for error in errors:
+			flash(error)
 		return redirect('/')
 	else:
 		firstname = request.form['first_name']
@@ -57,11 +55,14 @@ def register():
 
 @app.route('/login', methods=['POST'])
 def login():
+	errors = []
 	if not EMAIL_REGEX.match(request.form['email']):
-		flash('Invalid email entry')
-		return redirect('/')
-	elif len(request.form['pw']) < 8:
-		flash('Password must be more than 8 characters')
+		errors.append('Invalid email entry')
+	if len(request.form['pw']) < 8:
+		errors.append('Password must be more than 8 characters')
+	if len(errors) > 0:
+		for error in errors:
+			flash(error)
 		return redirect('/')
 	else:
 		try:
