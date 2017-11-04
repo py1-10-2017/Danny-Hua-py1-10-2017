@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Random Word Generator</title>
+		{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'randomword/css/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'randomword/css/main.css' %}">
+</head>
+<body>
+<div class="container">
+	<div class="col-md-8 col-md-offset-2 center">
+		<p>Random Word (attempt #{{ request.session.count }})</p>
+	</div>
+	<div class="col-md-8 col-md-offset-2 center">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				<h1>{{ request.session.randomword }}</h1>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-8 col-md-offset-2 center">
+		<form action="/random_word" method="POST">
+			{% csrf_token %}
+			<input class="btn btn-primary mybutton" type="submit" name="generate" value="Generate">
+		</form>
+		<form action="/random_word/reset">
+			<input class="btn btn-primary mybutton" type="submit" name="reset" value="reset">
+		</form>
+	</div>
+</div>
+</body>
+</html>

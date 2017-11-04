@@ -1,0 +1,16 @@
+*{
+	margin: 0px;
+	padding: 0px;
+}
+.container{
+	width: 970px;
+	margin: 20px auto;
+}
+.time{
+	width: 600px;
+	margin: 20px auto;
+	text-align: center;
+}
+h4{
+	margin: 20px auto;
+}

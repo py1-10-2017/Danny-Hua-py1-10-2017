@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Survey Form</title>
+		{% load static %}
+	<link rel="stylesheet" rel="shortcut icon" type="text/css" href="{% static 'survey_form/css/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'survey_form/css/main.css' %}">
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-8 col-md-offset-2 boxframe">
+			<div class="col-sm-8 col-sm-offset-2 boxframe2">
+				<p>Thanks for submitting this form! You have submitted this form {{ request.session.attempt }} times now.</p>
+			</div>
+			<div class="col-sm-8 col-sm-offset-2 boxframe3">
+				<h1 class="text-center headerfont"><u>Submitted Form</u></h1>
+				<div class="col-sm-6">
+					<p>Name:</p>
+				</div>
+				<div class="col-sm-6">
+					<p>{{ request.session.name }}</p>
+				</div>
+				<div class="col-sm-6">
+					<p>Dojo Location:</p>
+				</div>
+				<div class="col-sm-6">
+					<p>{{ request.session.dojo_loc }}</p>
+				</div>
+				<div class="col-sm-6">
+					<p>Favorite Language:</p>
+				</div>
+				<div class="col-sm-6">
+					<p>{{ request.session.languages }}</p>
+				</div>
+				<div class="col-sm-6">
+					<p>Comment:</p>
+				</div>
+				<div class="col-sm-6">
+					<p>{{ request.session.comment }}</p>
+				</div>
+				<div class="col-sm-offset-6 col-sm-6">
+					<form action="/">
+						<input type="submit" name="submit" class="btn btn-success" value="Go back">
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
