@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Amadon</title>
+		{% load static %}
+	<link rel="stylesheet" rel="shortcut icon" type="text/css" href="{% static 'amadon/css/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'amadon/css/main.css' %}">
+</head>
+<body>
+	<div class="container">
+		<div>
+			<h1>Amadon</h1>
+			<table class="table table-striped table-bordered">
+				<tr>
+					<th>Item</th>
+					<th>Price</th>
+					<th>Quantity</th>
+					<th>Action</th>
+				</tr>
+				{% for item in items %}
+				<tr>
+					<td>{{ item.item }}</td>
+					<td>{{ item.price }}</td>
+					<form action="/buy/{{ item.id }}" method="POST">
+						{% csrf_token %}
+						<td>
+							<select name="quantity">
+								<option>1</option>
+								<option>2</option>
+								<option>3</option>
+							</select>
+						</td>
+						<td>
+							<input type="submit" name="submit" value="Buy">
+						</td>
+					</form>
+				</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+</body>
+</html>
