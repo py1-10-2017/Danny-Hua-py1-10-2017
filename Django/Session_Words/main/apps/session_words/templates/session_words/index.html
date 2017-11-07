@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Session Words</title>
+		{% load static %}
+	<link rel="stylesheet" rel="shortcut icon" type="text/css" href="{% static 'session_words/css/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'session_words/css/main.css' %}">
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-6 boxframe">
+			<div class="row">
+				<h1 class="text-center headerfont">Add a new word</h1>
+			</div>
+			<form action="/session_words/add_word" method="POST">
+				{% csrf_token %}
+				<div class="form-group">
+					<input type="text" class="form-control" name="word">
+				</div>
+				<div class="row">
+					<h5>Choose Color</h5>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="color" value="red">Red
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="color" value="green">Green
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="color" value="blue">Blue
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" name="bigfonts" value="bigfonts">show in BIG fonts!
+					</label>
+				</div>
+				<div>
+					<input type="submit" class="btn btn-primary mybutton" name="submit" value="Add to Session">
+				</div>
+			</form>
+		</div>
+		<div class="col-md-6 boxframe">
+			<form action="/session_words/clear">
+				<div>
+					<input type="submit" class="btn btn-danger mybutton" name="submit" value="Clear Session">
+				</div>
+			</form>
+			<div class="row">
+				{% if request.session.word %}
+					{% for word in request.session.word %}
+					<p><span style="color: {{word.color}}" class="{{word.large}}">{{word.word}}</span> - added on {{word.created_at}}</p>
+					{% endfor %}
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</body>
+</html>
