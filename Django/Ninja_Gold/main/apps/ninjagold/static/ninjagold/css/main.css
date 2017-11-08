@@ -1,0 +1,54 @@
+.container{
+	background-color: #2f2f2f;
+}
+.mybutton{
+	/*margin-top: 20px;*/
+	margin-bottom: 20px;
+	box-shadow: 5px 5px 5px #888888;
+}
+.formspace{
+	margin-top: 40px;
+}
+.boxframe{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 5px solid #096517;
+	background-color: #ffd100;
+}
+.headerfont{
+	font-weight: bold;
+	font-family: Times New Roman;
+}
+.comment{
+	width: 50%;
+}
+.boxframe2{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 2px solid red;
+	background-color: #bbbbbb;
+}
+.boxframe3{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 2px solid #096517;
+	background-color: white;
+}
+.loss{
+	color: red;
+}
+.win{
+	color: green;
+}
+.blue{
+	color: blue;
+}
+.large{
+	font-weight: bold;
+	font-size: large;
+	text-transform: uppercase;
+}
+.size1{
+	height: 300px;
+	overflow: auto;
+}

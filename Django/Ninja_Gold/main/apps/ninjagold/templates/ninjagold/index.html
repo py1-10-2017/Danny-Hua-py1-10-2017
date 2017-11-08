@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Ninja Gold</title>
+		{% load static %}
+	<link rel="stylesheet" rel="shortcut icon" type="text/css" href="{% static 'ninjagold/css/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'ninjagold/css/main.css' %}">
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-12 boxframe2">
+			<div class="col-sm-2">
+				<h4>Gold: {{request.session.gold}}</h4>
+			</div>
+		</div>
+		{% for list in lists %}
+		<form action="/process" method="POST">
+			{% csrf_token %}
+			<div class="col-md-3 boxframe2">
+				<h4 class="text-center">{{ list.place }}</h4>
+				<p class="text-center">{{ list.earns }}</p>
+				<input type="hidden" name="place" value="{{ list.place }}">
+				<input type="submit" class="btn btn-default center-block mybutton" name="findgold" value="Find Gold">
+			</div>
+		</form>
+		{% endfor %}
+		<div class="col-md-12">
+			<h2 style="color: red;">Activities:</h2>
+		</div>
+		<div class="col-md-12 boxframe2 size1">
+			{% for act in request.session.activities reversed %}
+			<p class="{{act.color}}">{{ act.act }} {{ act.time }}</p>
+			{% endfor %}
+		</div>
+		<div>
+			<form action="/reset">
+				<input type="submit" class="btn btn-default mybutton" name="reset" value="reset">
+			</form>
+		</div> 
+	</div>
+</body>
+</html>
