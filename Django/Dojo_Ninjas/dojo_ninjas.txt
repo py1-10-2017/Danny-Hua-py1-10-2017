@@ -1,0 +1,90 @@
+Create 3 dojos:
+
+>>> dojos.objects.create(name="CodingDojo Silicon Valley", city="Mountain View", state="CA")
+>>> dojos.objects.create(name="CodingDojo Seattle", city="Seattle", state="WA")
+>>> dojos.objects.create(name="CodingDojo New York", city="New York", state="NY")
+
+Delete the three dojos you created
+
+>>> dojos.objects.get(id=1).delete()
+(1, {u'dojo_ninjas.ninjas': 0, u'dojo_ninjas.dojos': 1})
+>>> dojos.objects.get(id=2).delete()
+(1, {u'dojo_ninjas.ninjas': 0, u'dojo_ninjas.dojos': 1})
+>>> dojos.objects.get(id=3).delete()
+(1, {u'dojo_ninjas.ninjas': 0, u'dojo_ninjas.dojos': 1})
+
+Create 3 additional dojos by using Dojo.objects.create
+
+>>> dojo = dojos.objects
+>>> dojo.create(name="CodingDojo Anaheim", city="Anaheim", state="CA")
+<dojos: dojos object>
+>>> dojo.create(name="CodingDojo Los Angeles", city="Los Angeles", state="CA")
+<dojos: dojos object>
+>>> dojo.create(name="CodingDojo Las Vegas", city="Las Vegas", state="NV")
+<dojos: dojos object>
+
+Create 3 ninjas that belong to the first dojo you created.
+
+>>> ninja = ninjas.objects
+>>> dojo1 = dojos.objects.get(id=4)
+>>> ninja.create(first_name="Danny", last_name="Hua", dojo=dojo1)
+<ninjas: ninjas object>
+>>> ninja.create(first_name="John", last_name="Snow", dojo=dojo1)
+<ninjas: ninjas object>
+>>> ninja.create(first_name="Jamie", last_name="Lannister", dojo=dojo1)
+<ninjas: ninjas object>
+
+Create 3 more ninjas and have them belong to the second dojo you created.
+
+>>> dojo2 = dojos.objects.get(id=5)
+>>> ninja.create(first_name="Cersei", last_name="Lannister", dojo=dojo2)
+<ninjas: ninjas object>
+>>> ninja.create(first_name="Tyrion", last_name="Lannister", dojo=dojo2)
+<ninjas: ninjas object>
+>>> ninja.create(first_name="Daenerys", last_name="Targaryen", dojo=dojo2)
+<ninjas: ninjas object>
+
+Create 3 more ninjas and have them belong to the third dojo you created.
+
+>>> dojo3 = dojos.objects.get(id=6)
+>>> ninja.create(first_name="Tony", last_name="Stark", dojo=dojo3)
+<ninjas: ninjas object>
+>>> ninja.create(first_name="Steve", last_name="Rogers", dojo=dojo3)
+<ninjas: ninjas object>
+>>> ninja.create(first_name="Peter", last_name="Parker", dojo=dojo3)
+<ninjas: ninjas object>
+
+Be able to retrieve all ninjas that belong to the first Dojo
+
+>>> ninjas.objects.filter(dojo=dojo1).values()
+<QuerySet [{u'dojo_id': 4, 'first_name': u'Danny', 'last_name': u'Hua', u'id': 1}, {u'dojo_id': 4, 'first_name': u'John', 'last_name': u'Snow', u'id': 2}, {u'dojo_id': 4, 'first_name': u'Jamie', 'last_name': u'Lannister', u'id': 3}]>
+
+Be able to retrieve all ninjas that belong to the last Dojo
+
+>>> ninjas.objects.filter(dojo=dojo3).values()
+<QuerySet [{u'dojo_id': 6, 'first_name': u'Tony', 'last_name': u'Stark', u'id': 7}, {u'dojo_id': 6, 'first_name': u'Steve', 'last_name': u'Rogers', u'id': 8}, {u'dojo_id': 6, 'first_name': u'Peter', 'last_name': u'Parker', u'id': 9}]>
+
+Add a new field in the Dojo class (found in your models.py) called 'desc'. Allow 'desc' to hold long text (more than 255 characters). To forward engineer the change, run the appropriate migration commands. Successfully run the migration files and check the records to make sure the new field was added successfully.
+
+(djangoEnv) C:\Users\zaape\Desktop\my_django\Dojo_Ninjas\main>python manage.py makemigrations
+You are trying to add a non-nullable field 'desc' to dojos without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit, and let me add a default in models.py
+Select an option: 1
+Please enter the default value now, as valid Python
+The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
+Type 'exit' to exit this prompt
+>>> fdjsakfldsaklf
+Invalid input: name 'fdjsakfldsaklf' is not defined
+>>> timezone.now
+Migrations for 'dojo_ninjas':
+  apps\dojo_ninjas\migrations\0003_dojos_desc.py
+    - Add field desc to dojos
+
+(djangoEnv) C:\Users\zaape\Desktop\my_django\Dojo_Ninjas\main>python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, contenttypes, dojo_ninjas, sessions
+Running migrations:
+  Applying dojo_ninjas.0003_dojos_desc... OK
+

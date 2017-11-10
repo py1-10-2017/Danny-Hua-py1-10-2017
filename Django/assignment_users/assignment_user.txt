@@ -1,0 +1,67 @@
+ from apps.assignment_users.models import *
+>>> users
+<class 'apps.assignment_users.models.users'>
+>>> users.objects.create(first_name="Danny", last_name="Hua", email_address="danny@email.com", age=1000)
+<users: users object>
+>>> users.objects.create(first_name="John", last_name="doe", email_address="john@email.com", age=1)
+<users: users object>
+>>> users.objects.all()
+<QuerySet [<users: users object>, <users: users object>]>
+>>> users.objects.all().values()
+<QuerySet [{'first_name': u'Danny', 'last_name': u'Hua', 'created_at': datetime.datetime(2017, 11, 9, 7, 17, 30, 602000, tzinfo=<UTC>), 'updated_at': datetime.datetime(2017, 11, 9, 7, 17, 30, 602000, tzinfo=<UTC>), u'id': 1, 'email_address': u'danny@email.com', 'age': 1000}, {'first_name': u'John', 'last_name': u'doe', 'created_at': datetime.datetime(2017, 11, 9, 7, 22, 13, 32000, tzinfo=<UTC>), 'updated_at': datetime.datetime(2017, 11, 9, 7, 22, 13, 32000, tzinfo=<UTC>), u'id': 2, 'email_address': u'john@email.com', 'age': 1}]>
+>>> users.objects.create(first_name="Jamie", last_name="Lanister", email_address="Jamie@email.com", age=35)
+<users: users object>
+>>> users.objects.first().name
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'users' object has no attribute 'name'
+>>> users.objects.first().first_name
+u'Danny'
+>>> users.objects.last().first_name
+u'Jamie'
+>>> users.objects.last().age
+35
+>>> users.objects.get(id=3).values()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'users' object has no attribute 'values'
+>>> users.objects.get(id=3).first_name
+u'Jamie'
+>>> users.objects.all().values()
+<QuerySet [{'first_name': u'Danny', 'last_name': u'Hua', 'created_at': datetime.datetime(2017, 11, 9, 7, 17, 30, 602000, tzinfo=<UTC>), 'updated_at': datetime.datetime(2017, 11, 9, 7, 17, 30, 602000, tzinfo=<UTC>), u'id': 1, 'email_address': u'danny@email.com', 'age': 1000}, {'first_name': u'John', 'last_name': u'doe', 'created_at': datetime.datetime(2017, 11, 9, 7, 22, 13, 32000, tzinfo=<UTC>), 'updated_at': datetime.datetime(2017, 11, 9, 7, 22, 13, 32000, tzinfo=<UTC>), u'id': 2, 'email_address': u'john@email.com', 'age': 1}, {'first_name': u'Jamie', 'last_name': u'Lanister', 'created_at': datetime.datetime(2017, 11, 9, 7, 25, 5, 944000, tzinfo=<UTC>), 'updated_at': datetime.datetime(2017, 11, 9, 7, 25, 5, 944000, tzinfo=<UTC>), u'id': 3, 'email_address': u'Jamie@email.com', 'age': 35}]>
+>>> users.objects.get(id=3)
+<users: users object>
+>>> users.objects.get(id=3).values()
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'users' object has no attribute 'values'
+>>> users.objects.get(id=3).first_name = "Cersei"
+>>> users.objects.get(id=3).first_name
+u'Jamie'
+>>> a = users.objects.get(id=3)
+>>> a.first_name
+u'Jamie'
+>>> a.first_name = "Cersei"
+>>> a.save()
+>>> a.first_name
+'Cersei'
+>>> users.object.get(id=3).first_name
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: type object 'users' has no attribute 'object'
+>>> users.objects.get(id=3).first_name
+u'Cersei'
+>>> users.objects.create(first_name="Daenerys", last_name="Targaryen", email="daenerys@email.com", age=25)
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "C:\Users\zaape\Desktop\my_django\djangoEnv\lib\site-packages\django\db\models\manager.py", line 85, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+  File "C:\Users\zaape\Desktop\my_django\djangoEnv\lib\site-packages\django\db\models\query.py", line 392, in create
+    obj = self.model(**kwargs)
+  File "C:\Users\zaape\Desktop\my_django\djangoEnv\lib\site-packages\django\db\models\base.py", line 573, in __init__
+    raise TypeError("'%s' is an invalid keyword argument for this function" % list(kwargs)[0])
+TypeError: 'email' is an invalid keyword argument for this function
+>>> users.objects.create(first_name="Daenerys", last_name="Targaryen", email_address="daenerys@email.com", age=25)
+<users: users object>
+>>> users.objects.get(id=4).delete()
+(1, {u'assignment_users.users': 1})

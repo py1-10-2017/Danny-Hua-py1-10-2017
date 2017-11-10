@@ -1,0 +1,134 @@
+-Create 5 books with the following names: C sharp, Java, Python, PHP, Ruby
+
+>>> book.objects.create(name="C sharp", desc="blah blah blah blah")
+<book: book object>
+>>> book.objects.create(name="Java", desc="blah blah blah blah")
+<book: book object>
+>>> book.objects.create(name="Python", desc="blah blah blah blah")
+<book: book object>
+>>> book.objects.create(name="PHP", desc="blah blah blah blah")
+<book: book object>
+>>> book.objects.create(name="Ruby", desc="blah blah blah blah")
+<book: book object>
+
+-Create 5 different authors: Mike, Speros, John, Jadee, Jay
+
+author.objects.create(first_name='Mike', last_name='Mike', email='mike@email.com')
+<author: author object>
+>>> author.objects.create(first_name='Speros', last_name='Speros', email='speros@email.com')
+<author: author object>
+>>> author.objects.create(first_name='John', last_name='John', email='John@email.com')
+<author: author object>
+>>> author.objects.create(first_name='Jadee', last_name='Jadee', email='jadee@email.com')
+<author: author object>
+>>> author.objects.create(first_name='Jay', last_name='Jay', email='jay@email.com')
+<author: author object>
+
+-Add a new field in the authors table called 'notes'.  Make this a TextField.  Successfully create and run the migration files.
+
+(djangoEnv) C:\Users\zaape\Desktop\my_django\books_authors\main>python manage.py makemigrations
+You are trying to add a non-nullable field 'notes' to author without a default; we can't do that (the database needs something to populate existing rows).
+Please select a fix:
+ 1) Provide a one-off default now (will be set on all existing rows with a null value for this column)
+ 2) Quit, and let me add a default in models.py
+Select an option: 1
+Please enter the default value now, as valid Python
+The datetime and django.utils.timezone modules are available, so you can do e.g. timezone.now
+Type 'exit' to exit this prompt
+>>> null
+Invalid input: name 'null' is not defined
+>>> 'null'
+Migrations for 'books_authors':
+  apps\books_authors\migrations\0002_author_notes.py
+    - Add field notes to author
+
+(djangoEnv) C:\Users\zaape\Desktop\my_django\books_authors\main>python manage.py migrate
+Operations to perform:
+  Apply all migrations: admin, auth, books_authors, contenttypes, sessions
+Running migrations:
+  Applying books_authors.0002_author_notes... OK
+
+-Change the name of the 5th book to C#
+
+>>> a = book.objects.last()
+>>> a.name
+u'Ruby'
+>>> a.name="C#"
+>>> a.save()
+>>> a.name
+'C#'
+
+-Change the first_name of the 5th author to Ketul
+
+>>> a.first_name="Ketul"
+>>> a.last_name="ketul"
+>>> a.save()
+>>> a.first_name
+'Ketul'
+>>> a.last_name
+'ketul'
+
+-Assign the first author to the first 2 books
+
+>>> author1 = author.objects.get(id=1)
+>>> book1 = book.objects.get(id=1)
+>>> book2 = book.objects.get(id=2)
+>>> book1.name
+u'C sharp'
+>>> book2.name
+u'Java'
+>>> book1.authors.add(author1)
+>>> book2.authors.add(author1)
+
+-Assign the second author to the first 3 books
+
+>>> author2 = author.objects.get(id=2)
+>>> book3 = book.objects.get(id=3)
+>>> book1.authors.add(author2)
+>>> book2.authors.add(author2)
+>>> book3.authors.add(author2)
+
+-Assign the third author to the first 4 books
+
+>>> book4 = book.objects.get(id=4)
+>>> author3 = author.objects.get(id=3)
+>>> book1.authors.add(author3)
+>>> book2.authors.add(author3)
+>>> book3.authors.add(author3)
+>>> book4.authors.add(author3)
+
+-Assign the fourth author to the first 5 books (or in other words, all the books)
+
+>>> author4 = author.objects.get(id=4)
+>>> book5 = book.objects.get(id=5)
+>>> book1.authors.add(author4)
+>>> book2.authors.add(author4)
+>>> book3.authors.add(author4)
+>>> book4.authors.add(author4)
+>>> book5.authors.add(author4)
+
+-For the 3rd book, retrieve all the authors
+
+>>> book3.authors.all()
+<QuerySet [<author: author object>, <author: author object>, <author: author object>]>
+>>> book3.authors.all().values()
+<QuerySet [{'first_name': u'Speros', 'last_name': u'Speros', 'notes': u'null', 'updated_at': datetime.datetime(2017, 11, 10, 5, 32, 55, 960000, tzinfo=<UTC>), u'id': 2, 'email': u'speros@email.com', 'created_at': datetime.datetime(2017, 11, 10, 5, 32, 55, 960000, tzinfo=<UTC>)}, {'first_name': u'John', 'last_name': u'John', 'notes': u'null', 'updated_at': datetime.datetime(2017, 11, 10, 5, 33, 18, 274000, tzinfo=<UTC>), u'id': 3, 'email': u'John@email.com', 'created_at': datetime.datetime(2017, 11, 10, 5, 33, 18, 274000, tzinfo=<UTC>)}, {'first_name': u'Jadee', 'last_name': u'Jadee', 'notes': u'null', 'updated_at': datetime.datetime(2017, 11, 10, 5, 33, 40, 352000, tzinfo=<UTC>), u'id': 4, 'email': u'jadee@email.com', 'created_at': datetime.datetime(2017, 11, 10, 5, 33, 40, 352000, tzinfo=<UTC>)}]>
+
+-For the 2nd book, add the 5th author as one of the authors
+
+author5 = author.objects.get(id=5)
+>>> book2.authors.add(author5)
+
+-Find all the books that the 3rd author is part of
+
+>>> author3.books.all()
+<QuerySet [<book: book object>, <book: book object>, <book: book object>, <book: book object>]>
+>>> author3.books.all().values()
+<QuerySet [{'updated_at': datetime.datetime(2017, 11, 10, 5, 46, 36, 486000, tzinfo=<UTC>), 'created_at': datetime.datetime(2017, 11, 10, 5, 24, 36, 105000, tzinfo=<UTC>), 'desc': u'blah blah blah blah', u'id': 1, 'name': u'C sharp'}, {'updated_at': datetime.datetime(2017, 11, 10, 5, 24, 47, 85000, tzinfo=<UTC>), 'created_at': datetime.datetime(2017, 11, 10, 5, 24, 47, 85000, tzinfo=<UTC>), 'desc': u'blah blah blah blah', u'id': 2, 'name': u'Java'}, {'updated_at': datetime.datetime(2017, 11, 10, 5, 24, 55, 543000, tzinfo=<UTC>), 'created_at': datetime.datetime(2017, 11, 10, 5, 24, 55, 543000, tzinfo=<UTC>), 'desc': u'blah blah blah blah', u'id': 3, 'name': u'Python'}, {'updated_at': datetime.datetime(2017, 11, 10, 5, 25, 6, 52000, tzinfo=<UTC>), 'created_at': datetime.datetime(2017, 11, 10, 5, 25, 6, 52000, tzinfo=<UTC>), 'desc': u'blah blah blah blah', u'id': 4, 'name': u'PHP'}]>
+
+-Find all the books that the 2nd author is part of
+
+>>> author2.books.all()
+<QuerySet [<book: book object>, <book: book object>, <book: book object>]>
+>>> author2.books.all().values()
+<QuerySet [{'updated_at': datetime.datetime(2017, 11, 10, 5, 46, 36, 486000, tzinfo=<UTC>), 'created_at': datetime.datetime(2017, 11, 10, 5, 24, 36, 105000, tzinfo=<UTC>), 'desc': u'blah blah blah blah', u'id': 1, 'name': u'C sharp'}, {'updated_at': datetime.datetime(2017, 11, 10, 5, 24, 47, 85000, tzinfo=<UTC>), 'created_at': datetime.datetime(2017, 11, 10, 5, 24, 47, 85000, tzinfo=<UTC>), 'desc': u'blah blah blah blah', u'id': 2, 'name': u'Java'}, {'updated_at': datetime.datetime(2017, 11, 10, 5, 24, 55, 543000, tzinfo=<UTC>), 'created_at': datetime.datetime(2017, 11, 10, 5, 24, 55, 543000, tzinfo=<UTC>), 'desc': u'blah blah blah blah', u'id': 3, 'name': u'Python'}]>
