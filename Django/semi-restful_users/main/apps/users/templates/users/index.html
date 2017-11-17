@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Semi-RESTful Users</title>
+	{% load static %}
+	<link rel="stylesheet" rel="shortcut icon" type="text/css" href="{% static 'users/css/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'users/css/main.css' %}">
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-12">
+			<h1>Users</h1>
+			<div>
+				<table class="table table-bordered table-striped">
+					<tr>
+						<th>ID</th>
+						<th>Full Name</th>
+						<th>Email</th>
+						<th>Create_At</th>
+						<th>Actions</th>
+					</tr>
+					{% for user in users %}
+					<tr>
+						<td>{{ user.id }}</td>
+						<td>{{ user.first_name }} {{user.last_name}}</td>
+						<td>{{ user.email }}</td>
+						<td>{{ user.create_at }}</td>
+						<td><a href="/users/{{user.id}}">show</a> <a href="/users/{{user.id}}/edit">edit</a> <a href="/users/{{user.id}}/destroy">delete</a></td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+			<a href="/users/new">Add a new user</a>
+		</div>
+	</div>
+</body>
+</html>

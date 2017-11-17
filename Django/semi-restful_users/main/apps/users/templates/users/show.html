@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Show User</title>
+	{% load static %}
+	<link rel="stylesheet" rel="shortcut icon" type="text/css" href="{% static 'users/css/bootstrap-3.3.7-dist/css/bootstrap.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'users/css/main.css' %}">
+</head>
+<body>
+	<div class="container">
+		<div class="col-md-12">
+			<h1>User {{user.id}}</h1>
+			<p>Full name: {{user.first_name}} {{user.last_name}}</p>
+			<p>Email: {{user.email}}</p>
+			<p>Create at: {{user.create_at}}</p>
+			<p><a href="/users/{{user.id}}/edit">Edit</a> | <a href="/users/{{user.id}}/destroy">Delete</a></p>
+		</div>
+	</div>
+</body>
+</html>

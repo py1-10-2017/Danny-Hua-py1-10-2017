@@ -1,0 +1,37 @@
+.center{
+	text-align: center;
+}
+.container{
+	background-color: #dcdbde;
+}
+.mybutton{
+	margin-top: 20px;
+}
+.formspace{
+	margin-top: 40px;
+}
+.boxframe{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 5px solid #096517;
+	background-color: #ffd100;
+}
+.headerfont{
+	font-weight: bold;
+	font-family: Times New Roman;
+}
+.comment{
+	width: 50%;
+}
+.boxframe2{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 2px solid #096517;
+	background-color: #a3e0a3;
+}
+.boxframe3{
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border: 2px solid #096517;
+	background-color: white;
+}
