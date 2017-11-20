@@ -88,7 +88,6 @@ def create_add(request, book_id):
 
 def user(request, user_id):
 	context = {
-		'user': user.objects.get(id=user_id),
-		'book': Review.objects.get(reviewer_id=user_id)
+		'User': user.objects.get(id=user_id)
 	}
-	return HttpResponse("user's page")
+	return render(request, 'beltreview/user.html')
