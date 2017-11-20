@@ -12,5 +12,5 @@ urlpatterns = [
     url(r'^create$', views.create),
     url(r'^book/(?P<book_id>\d+)$', views.show_book),
     url(r'^book/(?P<book_id>\d+)/create$', views.create_add),
-    url(r'^user/(?P<user_id>\d+)$', views.user),
+    url(r'^user/(?P<user_id>\d+)$', views.other_user),
 ]

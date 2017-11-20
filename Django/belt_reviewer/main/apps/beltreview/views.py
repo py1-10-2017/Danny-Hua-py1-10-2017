@@ -86,8 +86,11 @@ def create_add(request, book_id):
 		Review.objects.add_review(new_book_review, request.session['user_id'])
 	return redirect('/book/{}'.format(book_id))
 
-def user(request, user_id):
+def other_user(request, user_id):
+	total_reviews = len(Review.objects.filter(reviewer_id=user_id))
 	context = {
-		'User': user.objects.get(id=user_id)
+		'User': user.objects.get(id=user_id),
+		'reviews': Review.objects.filter(reviewer_id=user_id),
+		'tot_reviews': total_reviews
 	}
-	return render(request, 'beltreview/user.html')
+	return render(request, 'beltreview/user.html', context)
